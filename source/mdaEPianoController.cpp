@@ -89,6 +89,7 @@ tresult PLUGIN_API EPianoController::setParamNormalized (ParamID tag, ParamValue
 		int32 program = (int32)parameters.getParameter (tag)->toPlain (value);
 		if (program != currentPresetProgram)
 		{
+			currentPresetProgram = program;
 			for (int32 i = 0; i < 12; i++)
 			{
 				BaseController::setParamNormalized (i, EPianoProcessor::programParams[program][i]);

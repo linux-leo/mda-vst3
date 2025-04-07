@@ -168,6 +168,7 @@ tresult PLUGIN_API JX10Controller::setParamNormalized (ParamID tag, ParamValue v
 		int32 program = parameters.getParameter (tag)->toPlain (value);
 		if (program != currentPresetProgram)
 		{
+			currentPresetProgram = program;
 			for (int32 i = 0; i < 24; i++)
 			{
 				BaseController::setParamNormalized (i, JX10Processor::programParams[program][i]);

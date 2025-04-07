@@ -127,6 +127,7 @@ tresult PLUGIN_API DX10Controller::setParamNormalized (ParamID tag, ParamValue v
 		int32 program = (int32)parameters.getParameter (tag)->toPlain (value);
 		if (program != currentPresetProgram)
         {
+			currentPresetProgram = program;
 			for (int32 i = 0; i < 16; i++)
 			{
 				BaseController::setParamNormalized (i, DX10Processor::programParams[program][i]);

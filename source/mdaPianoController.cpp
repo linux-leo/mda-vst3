@@ -92,6 +92,7 @@ tresult PLUGIN_API PianoController::setParamNormalized (ParamID tag, ParamValue 
 		int32 program = parameters.getParameter (tag)->toPlain (value);
 		if (program != currentPresetProgram)
 		{
+			currentPresetProgram = program;
 			for (int32 i = 0; i < PianoProcessor::NPARAMS; i++)
 			{
 				BaseController::setParamNormalized (i, PianoProcessor::programParams[program][i]);
