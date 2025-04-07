@@ -24,7 +24,7 @@ namespace mda {
 FUID PianoController::uid (0xBAC8AA21, 0x216D4754, 0xA7639173, 0xE3BB5F7A);
 
 //-----------------------------------------------------------------------------
-PianoController::PianoController () : currentPresetProgram(-1)  // no preset selected yet
+PianoController::PianoController () : currentPresetProgram(-1)
 {
 	addBypassParameter = false;
 }
