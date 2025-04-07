@@ -40,6 +40,8 @@ public:
 //-----------------------------------------------------------------------------
 	static FUnknown* createInstance (void*) { return (IEditController*)new JX10Controller; }
 	static FUID uid;
+protected:
+    int32 currentPresetProgram;
 };
 
 }}} // namespaces

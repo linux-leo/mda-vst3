@@ -26,7 +26,7 @@ namespace mda {
 FUID EPianoController::uid (0xDA4F8237, 0x290441D4, 0xAF96E580, 0xE22C01FF);
 
 //-----------------------------------------------------------------------------
-EPianoController::EPianoController ()
+EPianoController::EPianoController () : currentPresetProgram(-1)
 {
 	addBypassParameter = false;
 }
@@ -87,11 +87,14 @@ tresult PLUGIN_API EPianoController::setParamNormalized (ParamID tag, ParamValue
 	if (res == kResultOk && tag == kPresetParam) // preset change
 	{
 		int32 program = (int32)parameters.getParameter (tag)->toPlain (value);
-		for (int32 i = 0; i < 12; i++)
+		if (program != currentPresetProgram)
 		{
-			BaseController::setParamNormalized (i, EPianoProcessor::programParams[program][i]);
+			for (int32 i = 0; i < 12; i++)
+			{
+				BaseController::setParamNormalized (i, EPianoProcessor::programParams[program][i]);
+			}
+			componentHandler->restartComponent (kParamValuesChanged);
 		}
-		componentHandler->restartComponent (kParamValuesChanged);
 	}
 	return res;
 }

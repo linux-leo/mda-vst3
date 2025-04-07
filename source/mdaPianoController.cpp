@@ -25,8 +25,9 @@ FUID PianoController::uid (0xBAC8AA21, 0x216D4754, 0xA7639173, 0xE3BB5F7A);
 
 //-----------------------------------------------------------------------------
 PianoController::PianoController ()
+: currentPresetProgram(-1)  // no preset selected yet
 {
-	addBypassParameter = false;
+    addBypassParameter = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -89,11 +90,14 @@ tresult PLUGIN_API PianoController::setParamNormalized (ParamID tag, ParamValue 
 	if (res == kResultOk && tag == kPresetParam) // preset change
 	{
 		int32 program = parameters.getParameter (tag)->toPlain (value);
-		for (int32 i = 0; i < PianoProcessor::NPARAMS; i++)
+		if (program != currentPresetProgram)
 		{
-			BaseController::setParamNormalized (i, PianoProcessor::programParams[program][i]);
+			for (int32 i = 0; i < PianoProcessor::NPARAMS; i++)
+			{
+				BaseController::setParamNormalized (i, PianoProcessor::programParams[program][i]);
+			}
+			componentHandler->restartComponent (kParamValuesChanged);
 		}
-		componentHandler->restartComponent (kParamValuesChanged);
 	}
 	return res;
 }

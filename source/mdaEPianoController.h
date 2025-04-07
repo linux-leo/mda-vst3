@@ -41,6 +41,8 @@ public:
 //-----------------------------------------------------------------------------
 	static FUnknown* createInstance (void*) { return (IEditController*)new EPianoController; }
 	static FUID uid;
+protected:
+    int32 currentPresetProgram;
 };
 
 }}} // namespaces

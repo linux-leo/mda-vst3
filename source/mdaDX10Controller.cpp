@@ -62,7 +62,7 @@ static const char* presetNames[] =
 FUID DX10Controller::uid (0x7EC0F00D, 0x92E142C7, 0x97056433, 0x30FFF119);
 
 //-----------------------------------------------------------------------------
-DX10Controller::DX10Controller ()
+DX10Controller::DX10Controller () : currentPresetProgram(-1)
 {
 	addBypassParameter = false;
 }
@@ -125,9 +125,12 @@ tresult PLUGIN_API DX10Controller::setParamNormalized (ParamID tag, ParamValue v
 	if (res == kResultOk && tag == kPresetParam) // preset change
 	{
 		int32 program = (int32)parameters.getParameter (tag)->toPlain (value);
-		for (int32 i = 0; i < 16; i++)
-		{
-			BaseController::setParamNormalized (i, DX10Processor::programParams[program][i]);
+		if (program != currentPresetProgram)
+        {
+			for (int32 i = 0; i < 16; i++)
+			{
+				BaseController::setParamNormalized (i, DX10Processor::programParams[program][i]);
+			}
 		}
 		componentHandler->restartComponent (kParamValuesChanged);
 	}

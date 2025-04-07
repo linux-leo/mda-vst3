@@ -24,7 +24,7 @@ namespace mda {
 FUID JX10Controller::uid (0x91E8798D, 0xEDE644C9, 0xB9EB444B, 0x5F0A8AA7);
 
 //-----------------------------------------------------------------------------
-JX10Controller::JX10Controller ()
+JX10Controller::JX10Controller () : currentPresetProgram(-1)
 {
 	addBypassParameter = false;
 }
@@ -166,11 +166,14 @@ tresult PLUGIN_API JX10Controller::setParamNormalized (ParamID tag, ParamValue v
 	if (res == kResultOk && tag == kPresetParam) // preset change
 	{
 		int32 program = parameters.getParameter (tag)->toPlain (value);
-		for (int32 i = 0; i < 24; i++)
+		if (program != currentPresetProgram)
 		{
-			BaseController::setParamNormalized (i, JX10Processor::programParams[program][i]);
+			for (int32 i = 0; i < 24; i++)
+			{
+				BaseController::setParamNormalized (i, JX10Processor::programParams[program][i]);
+			}
+			componentHandler->restartComponent (kParamValuesChanged);
 		}
-		componentHandler->restartComponent (kParamValuesChanged);
 	}
 	return res;
 }
