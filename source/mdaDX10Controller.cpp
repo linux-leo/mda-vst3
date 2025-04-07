@@ -132,8 +132,8 @@ tresult PLUGIN_API DX10Controller::setParamNormalized (ParamID tag, ParamValue v
 			{
 				BaseController::setParamNormalized (i, DX10Processor::programParams[program][i]);
 			}
+			componentHandler->restartComponent (kParamValuesChanged);
 		}
-		componentHandler->restartComponent (kParamValuesChanged);
 	}
 	return res;
 }
